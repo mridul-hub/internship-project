@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form class="site-form" action="{%url 'index:login'%}" method="post">
+      {%csrf_token%}
+      {{form}}
+      <input type="Submit" value="login">
+    </form>
+    <p>New to Service? Dont Worry!! <a href="{% url 'index:signup' %}">Sign Up</a></p>
+  </body>
+</html>

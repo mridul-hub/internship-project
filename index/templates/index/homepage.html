@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>View List</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <!-- top -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1>View Grocery List</h1>
+                </div>
+
+                <div class="col-lg-6 float-right">
+                  <form class="site-form" action="{% url 'index:filter' %}" method="post">
+                     {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <!-- Date Filtering-->
+                            <!-- <label for="date"></label> -->
+                            <input id="date" name="date" type="date" class="form-control">
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="submit" class="btn btn-danger" value="filter">
+                            <a href="{%url 'index:home' request.user.id%}"><input type="button" class="btn btn-Success" value="Reset"></a>
+                        </div>
+                    </div>
+                    </form>
+                    <div class="col-lg-4" style="margin-left:630px; margin-top:-55px;" >
+                        <a href="{%url 'index:logout'%}"><input type="button" class="btn btn-danger" value="Logout"></a>
+                    </div>
+                </div>
+            </div>
+            <!-- // top -->
+            <!-- Grocery Cards -->
+
+            <div class="col-lg-4">
+                <a href="{%url 'index:additem'%}"><input type="button" class="btn btn-primary" value="Add item"></a>
+
+            </div>
+            <div class="row mt-4">
+                <!--- -->
+                <!-- Loop This -->
+                {% for d in data %}
+                  <div class="col-lg-4" style="margin-bottom: 30px;">
+                    <h5>{{d.date}}</h5>
+                      <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">{{d.name}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{d.quantity}}</h6>
+                            <!-- {{d.status}} -->
+                            {% if d.status == 1%}
+                            <p class="text-success">BOUGHT</p>
+                            {% elif d.status == 0%}
+                            <p class="text-info">PENDING</p>
+                            {% else %}
+                            <p class="text-danger">NOT AVAILABLE</p>
+                            {% endif %}
+                              <p><a href="{%url 'index:edit' d.id%}" class="text-info">Update</a>&emsp;&emsp;<a href="{%url 'index:delete' d.id%}" class="text-info">Delete</a></p>
+                          </div>
+                        </div>
+                  </div>
+                  {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>
